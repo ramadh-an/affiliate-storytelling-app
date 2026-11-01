@@ -19,6 +19,7 @@ const MODELS = (
 const ALLOWED_HOSTS = [
   "shopee.co.id",
   "shope.ee",
+  "shp.ee",
   "tokopedia.com",
   "tokopedia.link",
   "tiktok.com",
@@ -66,7 +67,12 @@ function nameFromSlug(u: URL) {
     .replace(/-i\.\d+\.\d+$/, "")
     .replace(/[-_+]+/g, " ")
     .trim();
-  return cleaned.length >= 6 && !/^\d+$/.test(cleaned) ? cleaned : "";
+  // Kode link pendek (misal "K2WkMspP") bukan nama produk: nama asli selalu terdiri dari beberapa kata.
+  return cleaned.split(" ").length >= 2 &&
+    cleaned.length >= 6 &&
+    !/^\d+$/.test(cleaned)
+    ? cleaned
+    : "";
 }
 
 // Ikuti redirect manual supaya setiap hop tetap divalidasi host-nya.
